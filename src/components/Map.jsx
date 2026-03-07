@@ -1,12 +1,46 @@
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents, CircleMarker } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import { getActiveFires } from "../services/api";
 import { useEffect, useState } from "react";
-import { CircleMarker } from "react-leaflet";
-function LocationMarker({ setPosition }) {
+import { predictRisk } from "../services/api";
+import RiskBox from "./RiskBox";
+function LocationMarker({ setPosition, setPrediction }) {
   useMapEvents({
-    click(e) {
+    async click(e) {
+
+      const lat = e.latlng.lat;
+      const lon = e.latlng.lng;
+
       setPosition(e.latlng);
+
+      const data = {
+        latitude: lat,
+        longitude: lon,
+
+        Temp_pre_30: null,
+        Temp_pre_15: null,
+        Temp_pre_7: null,
+
+        Wind_pre_30: null,
+        Wind_pre_15: null,
+        Wind_pre_7: null,
+
+        Hum_pre_30: null,
+        Hum_pre_15: null,
+        Hum_pre_7: null,
+
+        Prec_pre_30: 0,
+        Prec_pre_15: 0,
+        Prec_pre_7: 0,
+
+        Vegetation: 5,
+        remoteness: 0.4
+      };
+
+      const result = await predictRisk(data);
+
+      setPrediction(result);
     },
   });
   return null;
@@ -15,10 +49,12 @@ function LocationMarker({ setPosition }) {
 function Map() {
   const [position, setPosition] = useState(null);
   const [fires, setFires] = useState([]);
+  const [prediction, setPrediction] = useState(null);
+
   useEffect(() => {
     const loadFires = async () => {
       const data = await getActiveFires();
-      setFires(data);
+      setFires(data.fires); // backend {count,fires}
     };
 
     loadFires();
@@ -27,30 +63,53 @@ function Map() {
   return (
     <div>
       <MapContainer
-        center={[37.8, -96]}   // ABD merkezi
-        zoom={4}
-        maxBounds={[
-          [24.396308, -125.0],   // Güneybatı ABD
-          [49.384358, -66.93457] // Kuzeydoğu ABD
-        ]}
+        center={[39, 35]}   // Türkiye merkezi
+        zoom={6}
         style={{ height: "400px", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker setPosition={setPosition} />
-        {fires.map((fire, index) => (
+
+        <LocationMarker
+          setPosition={setPosition}
+          setPrediction={setPrediction}
+        />
+
+        <MarkerClusterGroup>
+          {fires.map((fire, index) => (
+            <CircleMarker
+              key={index}
+              center={[fire.latitude, fire.longitude]}
+              radius={5}
+              pathOptions={{
+                color:
+                  fire.confidence === "h"
+                    ? "red"
+                    : fire.confidence === "n"
+                      ? "orange"
+                      : "yellow",
+              }}
+            />
+          ))}
+        </MarkerClusterGroup>
+        {prediction && position && (
           <CircleMarker
-            key={index}
-            center={[fire.latitude, fire.longitude]}
-            radius={4}
+            center={[position.lat, position.lng]}
+            radius={10}
             pathOptions={{
-              color: fire.confidence === "h" ? "red" : "orange",
+              color:
+                prediction.risk_level === "High"
+                  ? "red"
+                  : prediction.risk_level === "Medium"
+                    ? "orange"
+                    : "green",
             }}
           />
-        ))}
-        
+        )}
+
       </MapContainer>
+      
 
       {position && (
         <p>
@@ -61,5 +120,6 @@ function Map() {
     </div>
   );
 }
+
 
 export default Map;
