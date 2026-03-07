@@ -1,7 +1,8 @@
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
-import { useState } from "react";
 import "leaflet/dist/leaflet.css";
-
+import { getActiveFires } from "../services/api";
+import { useEffect, useState } from "react";
+import { CircleMarker } from "react-leaflet";
 function LocationMarker({ setPosition }) {
   useMapEvents({
     click(e) {
@@ -13,6 +14,15 @@ function LocationMarker({ setPosition }) {
 
 function Map() {
   const [position, setPosition] = useState(null);
+  const [fires, setFires] = useState([]);
+  useEffect(() => {
+    const loadFires = async () => {
+      const data = await getActiveFires();
+      setFires(data);
+    };
+
+    loadFires();
+  }, []);
 
   return (
     <div>
@@ -29,6 +39,17 @@ function Map() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker setPosition={setPosition} />
+        {fires.map((fire, index) => (
+          <CircleMarker
+            key={index}
+            center={[fire.latitude, fire.longitude]}
+            radius={4}
+            pathOptions={{
+              color: fire.confidence === "h" ? "red" : "orange",
+            }}
+          />
+        ))}
+        
       </MapContainer>
 
       {position && (

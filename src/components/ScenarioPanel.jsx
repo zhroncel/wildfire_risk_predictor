@@ -1,9 +1,45 @@
 import { useState } from "react";
+import { predictRisk } from "../services/api";
+import RiskBox from "./RiskBox";
 
 function ScenarioPanel() {
+
   const [temp, setTemp] = useState(25);
   const [wind, setWind] = useState(5);
   const [humidity, setHumidity] = useState(40);
+
+  const [risk, setRisk] = useState(null);
+
+  const runPrediction = async () => {
+
+    const data = {
+      latitude: 37,
+      longitude: -120,
+
+      Temp_pre_30: temp,
+      Temp_pre_15: temp,
+      Temp_pre_7: temp,
+
+      Wind_pre_30: wind,
+      Wind_pre_15: wind,
+      Wind_pre_7: wind,
+
+      Hum_pre_30: humidity,
+      Hum_pre_15: humidity,
+      Hum_pre_7: humidity,
+
+      Prec_pre_30: 0,
+      Prec_pre_15: 0,
+      Prec_pre_7: 0,
+
+      Vegetation: 5,
+      remoteness: 0.4
+    };
+
+    const result = await predictRisk(data);
+
+    setRisk(result);
+  };
 
   return (
     <div
@@ -49,6 +85,7 @@ function ScenarioPanel() {
       />
 
       <button
+        onClick={runPrediction}
         style={{
           marginTop: "15px",
           padding: "10px",
@@ -62,9 +99,11 @@ function ScenarioPanel() {
       >
         Risk Tahmini Yap
       </button>
+
+     {risk && <RiskBox result={risk} />}
+
     </div>
   );
 }
 
 export default ScenarioPanel;
-

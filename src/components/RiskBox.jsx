@@ -1,14 +1,20 @@
-function RiskBox({ risk }) {
-  let color = "green";
-  let text = "Düşük Risk";
+function RiskBox({ result }) {
 
-  if (risk > 0.7) {
-    color = "red";
-    text = "Yüksek Risk";
-  } else if (risk > 0.4) {
-    color = "orange";
-    text = "Orta Risk";
-  }
+  if (!result) return null;
+
+  const { 
+    risk_score,
+    risk_level,
+    predicted_fire_size,
+    meteorology_score,
+    regional_score,
+    model_score
+  } = result;
+
+  let color = "green";
+
+  if (risk_level === "High") color = "red";
+  if (risk_level === "Medium") color = "orange";
 
   return (
     <div
@@ -21,13 +27,37 @@ function RiskBox({ risk }) {
         marginBottom: "20px",
       }}
     >
-      <h3>Risk Durumu</h3>
-      <p>{text}</p>
-      <p>Risk Skoru: {risk}</p>
+      <h3>🔥 Yangın Risk Analizi</h3>
 
-      {risk > 0.7 && (
-        <div style={{ color: "red", fontWeight: "bold" }}>
-          ⚠️ YÜKSEK YANGIN RİSKİ!
+      <p><b>Risk Seviyesi:</b> {risk_level}</p>
+
+      <p><b>Risk Skoru:</b> {risk_score ? risk_score.toFixed(2) : "-"}</p>
+
+      <hr />
+
+      <p>
+        <b>Tahmini Yangın Büyüklüğü:</b>{" "}
+        {predicted_fire_size ? predicted_fire_size.toFixed(2) : "-"}
+      </p>
+
+      <p>
+        <b>Model Skoru:</b>{" "}
+        {model_score ? model_score.toFixed(2) : "-"}
+      </p>
+
+      <p>
+        <b>Meteoroloji Skoru:</b>{" "}
+        {meteorology_score ? meteorology_score.toFixed(2) : "-"}
+      </p>
+
+      <p>
+        <b>Bölgesel Risk:</b>{" "}
+        {regional_score ? regional_score.toFixed(2) : "-"}
+      </p>
+
+      {risk_level === "High" && (
+        <div style={{ color: "red", fontWeight: "bold", marginTop: "10px" }}>
+          ⚠️ Yüksek Yangın Riski!
         </div>
       )}
     </div>
@@ -35,4 +65,3 @@ function RiskBox({ risk }) {
 }
 
 export default RiskBox;
-
