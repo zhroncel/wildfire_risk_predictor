@@ -2,37 +2,70 @@ import Sidebar from "./layout/Sidebar";
 import Header from "./layout/Header";
 import MapCard from "./components/MapCard";
 import ScenarioPanel from "./components/ScenarioPanel";
-import RiskBox from "./components/RiskBox";
+import Dashboard from "./pages/Dashboard";
+
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
+
+  const [position, setPosition] = useState(null);
+  const [prediction, setPrediction] = useState(null);
+
   return (
-    <div style={{ display: "flex" }}>
-      {/* Sol Menü */}
-      <Sidebar />
 
-      {/* Sağ İçerik */}
-      <div style={{ flex: 1 }}>
-        <Header />
+    <BrowserRouter>
 
-        <div
-          style={{
-            padding: "20px",
-            display: "grid",
-            gridTemplateColumns: "2fr 1fr",
-            gap: "20px",
-          }}
-        >
-          {/* Sol taraf */}
-          <MapCard />
+      <div className="app-container">
 
-          {/* Sağ taraf */}
-          <div>
-            <ScenarioPanel />
-            <RiskBox risk={0.85} />
-          </div>
+        <Sidebar />
+
+        <div className="main-content">
+
+          <Header />
+
+          <Routes>
+
+            {/* DASHBOARD */}
+
+            <Route
+              path="/"
+              element={<Dashboard />}
+            />
+
+            {/* RISK TAHMINI */}
+
+            <Route
+              path="/risk"
+              element={
+
+                <div className="dashboard-grid">
+
+                  <MapCard
+                    position={position}
+                    setPosition={setPosition}
+                    prediction={prediction}
+                  />
+
+                  <ScenarioPanel
+                    position={position}
+                    setPrediction={setPrediction}
+                    prediction={prediction}
+                  />
+
+                </div>
+
+              }
+            />
+
+          </Routes>
+
         </div>
+
       </div>
-    </div>
+
+    </BrowserRouter>
+
   );
 }
 

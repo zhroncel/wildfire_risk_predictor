@@ -1,65 +1,54 @@
+import "../App.css"; 
+import FireGrowthChart from "./FireGrowthChart";
 function RiskBox({ result }) {
-
   if (!result) return null;
 
   const { 
-    risk_score,
-    risk_level,
-    predicted_fire_size,
-    meteorology_score,
-    regional_score,
-    model_score
+    risk_score, risk_level, predicted_fire_size,
+    meteorology_score, regional_score, model_score 
   } = result;
 
-  let color = "green";
-
-  if (risk_level === "High") color = "red";
-  if (risk_level === "Medium") color = "orange";
+  const level = risk_level?.toLowerCase() || "low";
+  const riskClass = `risk-box risk-${level}`;
+  const badgeClass = `risk-level-badge ${level}-bg`;
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        border: `2px solid ${color}`,
-        padding: "15px",
-        borderRadius: "8px",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-        marginBottom: "20px",
-      }}
-    >
-      <h3>🔥 Yangın Risk Analizi</h3>
+    <div className={riskClass}>
+      <div className="risk-header">
+        <h3 style={{margin: 0}}>🔥 Analiz Sonucu</h3>
+        <span className={badgeClass}>{risk_level} Risk</span>
+      </div>
 
-      <p><b>Risk Seviyesi:</b> {risk_level}</p>
+      <div className="stat-item" style={{background: 'white', marginBottom: '10px'}}>
+        <span className="stat-label">GENEL RİSK SKORU</span>
+        <span className="stat-value" style={{fontSize: '1.5rem'}}>{risk_score?.toFixed(2)}</span>
+      </div>
 
-      <p><b>Risk Skoru:</b> {risk_score ? risk_score.toFixed(2) : "-"}</p>
-
-      <hr />
-
-      <p>
-        <b>Tahmini Yangın Büyüklüğü:</b>{" "}
-        {predicted_fire_size ? predicted_fire_size.toFixed(2) : "-"}
-      </p>
-
-      <p>
-        <b>Model Skoru:</b>{" "}
-        {model_score ? model_score.toFixed(2) : "-"}
-      </p>
-
-      <p>
-        <b>Meteoroloji Skoru:</b>{" "}
-        {meteorology_score ? meteorology_score.toFixed(2) : "-"}
-      </p>
-
-      <p>
-        <b>Bölgesel Risk:</b>{" "}
-        {regional_score ? regional_score.toFixed(2) : "-"}
-      </p>
+      <div className="stats-grid">
+        <div className="stat-item">
+          <span className="stat-label">Tahmini Büyüklük</span>
+          <span className="stat-value">{predicted_fire_size?.toFixed(2)} ha</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Meteoroloji</span>
+          <span className="stat-value">{meteorology_score?.toFixed(2)}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Bölgesel Risk</span>
+          <span className="stat-value">{regional_score?.toFixed(2)}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Model Skoru</span>
+          <span className="stat-value">{model_score?.toFixed(2)}</span>
+        </div>
+      </div>
 
       {risk_level === "High" && (
-        <div style={{ color: "red", fontWeight: "bold", marginTop: "10px" }}>
-          ⚠️ Yüksek Yangın Riski!
+        <div className="danger-alert">
+          ⚠️ KRİTİK SEVİYE: Acil Durum Hazırlığı Gerekli!
         </div>
       )}
+      <FireGrowthChart size={predicted_fire_size} />
     </div>
   );
 }

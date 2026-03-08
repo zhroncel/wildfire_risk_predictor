@@ -1,15 +1,12 @@
 function Header() {
   return (
-    <div
-      style={{
-        backgroundColor: "#111827",
-        color: "white",
-        padding: "15px 20px",
-        marginBottom: "20px",
-      }}
-    >
+    <header className="main-header">
       <h2>Wildfire Risk Predictor</h2>
-    </div>
+      <div className="user-profile">
+       
+        <div className="status-dot"></div>
+      </div>
+    </header>
   );
 }
 

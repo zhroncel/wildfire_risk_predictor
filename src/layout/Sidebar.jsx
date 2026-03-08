@@ -1,24 +1,43 @@
+import { Link, useLocation } from "react-router-dom";
+
 function Sidebar() {
+
+  const location = useLocation();
+
   return (
-    <div
-      style={{
-        width: "220px",
-        minHeight: "100vh",
-        backgroundColor: "#1f2937",
-        color: "white",
-        padding: "20px",
-      }}
-    >
-      <h3>MENU</h3>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        <li style={{ margin: "10px 0" }}>Ana Sayfa</li>
-        <li style={{ margin: "10px 0", color: "#60a5fa" }}>
-          Risk Tahmini
+
+    <div className="sidebar">
+
+      <div className="sidebar-logo">
+        Wildfire Risk System
+      </div>
+
+      <ul className="sidebar-menu">
+
+        <li className={location.pathname === "/" ? "active" : ""}>
+          <Link to="/">Dashboard</Link>
         </li>
-        <li style={{ margin: "10px 0" }}>Veri Analizi</li>
-        <li style={{ margin: "10px 0" }}>Hakkında</li>
+
+        <li className={location.pathname === "/risk" ? "active" : ""}>
+          <Link to="/risk">Risk Tahmini</Link>
+        </li>
+
+        <li>
+          Risk Haritası
+        </li>
+
+        <li>
+          Aktif Yangınlar
+        </li>
+
+        <li>
+          Veri Analizi
+        </li>
+
       </ul>
+
     </div>
+
   );
 }
 

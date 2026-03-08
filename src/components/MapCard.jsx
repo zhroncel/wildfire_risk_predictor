@@ -1,20 +1,25 @@
 import Map from "./Map";
+import "../App.css";
 
-function MapCard() {
+function MapCard({ position, setPosition, prediction }) {
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        padding: "15px",
-        borderRadius: "8px",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-        marginBottom: "20px",
-      }}
-    >
-      <h3>Konum Seçimi</h3>
-      <Map />
+    <div className="map-card">
+
+      <h3>📍 Konum Seçimi</h3>
+
+      <div className="map-container">
+
+        <Map
+          position={position}
+          setPosition={setPosition}
+          prediction={prediction}
+        />
+
+      </div>
+
     </div>
   );
 }
 
+// BU SATIRIN OLDUĞUNDAN EMİN OL:
 export default MapCard;

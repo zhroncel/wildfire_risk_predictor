@@ -1,107 +1,124 @@
 import { useState } from "react";
 import { predictRisk } from "../services/api";
 import RiskBox from "./RiskBox";
-
-function ScenarioPanel() {
+import { getWeather } from "../services/api";
+import { useEffect } from "react";
+function ScenarioPanel({ position, setPrediction, prediction }) {
+  // Otomatik hava durumu modu seçili mi?
+  const [isAutoWeather, setIsAutoWeather] = useState(true);
 
   const [temp, setTemp] = useState(25);
   const [wind, setWind] = useState(5);
   const [humidity, setHumidity] = useState(40);
+  const [vegetation, setVegetation] = useState(5);
+  const [remoteness, setRemoteness] = useState(0.4);
+  useEffect(() => {
+    if (!position || !isAutoWeather) return;
 
-  const [risk, setRisk] = useState(null);
+    const loadWeather = async () => {
+      const data = await getWeather(position.lat, position.lng);
+
+      if (!data.error) {
+        setTemp(data.temperature);
+        setHumidity(data.humidity);
+        setWind(data.wind);
+      }
+    };
+
+    loadWeather();
+  }, [position, isAutoWeather]);
 
   const runPrediction = async () => {
+    if (!position) {
+      alert("Lütfen önce haritadan bir konum seçin.");
+      return;
+    }
 
     const data = {
-      latitude: 37,
-      longitude: -120,
+      latitude: position.lat,
+      longitude: position.lng,
+      Vegetation: parseFloat(vegetation),
+      remoteness: parseFloat(remoteness),
+      // Eğer otomatiğe alınmışsa değerleri göndermiyoruz (Backend API'den çekecek)
+      Temp_pre_7: parseFloat(temp),
+      Temp_pre_15: parseFloat(temp),
+      Temp_pre_30: parseFloat(temp),
 
-      Temp_pre_30: temp,
-      Temp_pre_15: temp,
-      Temp_pre_7: temp,
+      Wind_pre_7: parseFloat(wind),
+      Wind_pre_15: parseFloat(wind),
+      Wind_pre_30: parseFloat(wind),
 
-      Wind_pre_30: wind,
-      Wind_pre_15: wind,
-      Wind_pre_7: wind,
-
-      Hum_pre_30: humidity,
-      Hum_pre_15: humidity,
-      Hum_pre_7: humidity,
-
-      Prec_pre_30: 0,
-      Prec_pre_15: 0,
-      Prec_pre_7: 0,
-
-      Vegetation: 5,
-      remoteness: 0.4
+      Hum_pre_7: parseFloat(humidity),
+      Hum_pre_15: parseFloat(humidity),
+      Hum_pre_30: parseFloat(humidity),
+      // Yağış backend'de opsiyonel, null bırakılabilir
+      Prec_pre_7: null, Prec_pre_15: null, Prec_pre_30: null
     };
 
     const result = await predictRisk(data);
-
-    setRisk(result);
+    setPrediction(result);
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        padding: "15px",
-        borderRadius: "8px",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-        marginBottom: "20px",
-      }}
-    >
-      <h3>Senaryo Ayarları</h3>
+    <div className="scenario-card">
+      <h3 className="panel-title">🔥 Senaryo Analizi</h3>
 
-      <label>Sıcaklık: {temp} °C</label>
-      <input
-        type="range"
-        min="0"
-        max="50"
-        value={temp}
-        onChange={(e) => setTemp(e.target.value)}
-      />
+      {/* Otomatik/Manuel Seçici */}
+      <div className="mode-toggle">
+        <button
+          className={isAutoWeather ? "active" : ""}
+          onClick={() => setIsAutoWeather(true)}
+        >
+          Canlı Hava Durumu
+        </button>
+        <button
+          className={!isAutoWeather ? "active" : ""}
+          onClick={() => setIsAutoWeather(false)}
+        >
+          Manuel Simülasyon
+        </button>
+      </div>
 
-      <br />
+      <div className={`form-grid ${isAutoWeather ? "disabled-grid" : ""}`}>
+        <div className="form-group">
+          <label>Sıcaklık {!isAutoWeather && `(${temp}°C)`}</label>
+          <input
+            type="range" min="-10" max="50" value={temp}
+            onChange={(e) => setTemp(e.target.value)}
+            disabled={isAutoWeather}
+          />
+        </div>
+        <div className="form-group">
+          <label>Rüzgar {!isAutoWeather && `(${wind} km/h)`}</label>
+          <input
+            type="range" min="0" max="120" value={wind}
+            onChange={(e) => setWind(e.target.value)}
+            disabled={isAutoWeather}
+          />
+        </div>
+        <div className="form-group">
+          <label>Nem {!isAutoWeather && `(%${humidity})`}</label>
+          <input
+            type="range" min="0" max="100" value={humidity}
+            onChange={(e) => setHumidity(e.target.value)}
+            disabled={isAutoWeather}
+          />
+        </div>
+        <div className="form-group">
+          <label>Bitki Yoğunluğu</label>
+          <input type="number" value={vegetation} onChange={(e) => setVegetation(e.target.value)} />
+        </div>
+        <div className="form-group full-width">
+          <label>Yerleşimden Uzaklık ({remoteness} km)</label>
+          <input type="range" step="0.1" min="0" max="1" value={remoteness} onChange={(e) => setRemoteness(e.target.value)} />
+        </div>
+      </div>
 
-      <label>Rüzgar: {wind} km/s</label>
-      <input
-        type="range"
-        min="0"
-        max="30"
-        value={wind}
-        onChange={(e) => setWind(e.target.value)}
-      />
-
-      <br />
-
-      <label>Nem: {humidity} %</label>
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value={humidity}
-        onChange={(e) => setHumidity(e.target.value)}
-      />
-
-      <button
-        onClick={runPrediction}
-        style={{
-          marginTop: "15px",
-          padding: "10px",
-          width: "100%",
-          backgroundColor: "#2563eb",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        Risk Tahmini Yap
+      <button className="predict-btn" onClick={runPrediction}>
+        {isAutoWeather ? "Gerçek Verilerle Tahmin Yap" : "Senaryoyu Test Et"}
       </button>
 
-     {risk && <RiskBox result={risk} />}
-
+      {prediction && <RiskBox result={prediction} />}
     </div>
   );
 }
