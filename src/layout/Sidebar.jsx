@@ -31,7 +31,7 @@ function Sidebar() {
         </li>
 
         <li>
-          Veri Analizi
+          <a href="/analysis">AI Veri Analizi</a>
         </li>
 
       </ul>

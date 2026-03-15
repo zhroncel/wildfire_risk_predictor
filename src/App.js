@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AIAnalysisPage from "./pages/AIAnalysisPage";
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
                     position={position}
                     setPosition={setPosition}
                     prediction={prediction}
+                    setPrediction={setPrediction}
                   />
 
                   <ScenarioPanel
@@ -57,6 +59,7 @@ function App() {
 
               }
             />
+            <Route path="/analysis" element={<AIAnalysisPage />} />
 
           </Routes>
 

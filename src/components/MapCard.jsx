@@ -1,8 +1,8 @@
 import Map from "./Map";
 import "../App.css";
 
-function MapCard({ position, setPosition, prediction }) {
-  return (
+function MapCard({ position, setPosition, prediction, setPrediction }) {
+    return (
     <div className="map-card">
 
       <h3>📍 Konum Seçimi</h3>
@@ -13,6 +13,7 @@ function MapCard({ position, setPosition, prediction }) {
           position={position}
           setPosition={setPosition}
           prediction={prediction}
+          setPrediction={setPrediction}
         />
 
       </div>

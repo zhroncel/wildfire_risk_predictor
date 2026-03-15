@@ -632,3 +632,118 @@ body{
   text-decoration:none;
   display:block;
 }
+.weather-box{
+  background:#f1f5f9;
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+.weather-item{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.analysis-page{
+  padding:30px;
+}
+
+.chat-container{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  height:500px;
+  display:flex;
+  flex-direction:column;
+}
+
+.chat-messages{
+  flex:1;
+  overflow-y:auto;
+  margin-bottom:10px;
+  display:flex;
+  flex-direction:column;
+}
+
+.chat-user{
+  align-self:flex-end;
+  background:#2563eb;
+  color:white;
+  padding:10px 14px;
+  border-radius:10px;
+  margin:6px 0;
+  max-width:70%;
+}
+
+.chat-bot{
+  align-self:flex-start;
+  background:#f1f5f9;
+  padding:10px 14px;
+  border-radius:10px;
+  margin:6px 0;
+  max-width:70%;
+}
+
+.chat-input{
+  display:flex;
+  gap:10px;
+}
+
+.chat-input input{
+  flex:1;
+  padding:10px;
+  border:1px solid #e2e8f0;
+  border-radius:8px;
+}
+
+.chat-input button{
+  padding:10px 16px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+.analysis-card{
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.quick-questions{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.quick-questions button{
+  background:#e2e8f0;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+.chat-bot {
+  background:#f1f5f9;
+  padding:8px 12px;
+  border-radius:8px;
+  margin:5px 0;
+  display:inline-block;
+}
+
+.chat-bot::after{
+  content:"...";
+  animation:dots 1.5s infinite;
+}
+
+@keyframes dots{
+  0%{content:"."}
+  33%{content:".."}
+  66%{content:"..."}
+}

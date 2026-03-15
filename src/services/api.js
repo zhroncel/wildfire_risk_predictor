@@ -30,3 +30,15 @@ export const getHeatmap = async () => {
   const response = await fetch(`${API_URL}/heatmap`);
   return response.json();
 };
+export const askAI = async (data) => {
+
+  const res = await fetch("http://127.0.0.1:8000/ai-analysis", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  return await res.json();
+};

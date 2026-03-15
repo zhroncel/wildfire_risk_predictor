@@ -4,20 +4,21 @@ import "../App.css";
 import { useEffect, useState } from "react";
 import { getActiveFires } from "../services/api";
 
-function LocationMarker({ setPosition }) {
-  useMapEvents({
+function LocationMarker({ setPosition, setPrediction }) {
+    useMapEvents({
     click(e) {
       setPosition({
         lat: e.latlng.lat,
         lng: e.latlng.lng
       });
+      setPrediction(null);
     }
   });
 
   return null;
 }
 
-function Map({ position, setPosition, prediction }) {
+function Map({ position, setPosition, prediction,setPrediction  }) {
 
   const [fires, setFires] = useState([]);
 
@@ -40,7 +41,7 @@ function Map({ position, setPosition, prediction }) {
 
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <LocationMarker setPosition={setPosition} />
+        <LocationMarker setPosition={setPosition}   setPrediction={setPrediction}/>
 
         {fires.map((fire, index) => (
           <CircleMarker

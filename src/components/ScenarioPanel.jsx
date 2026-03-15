@@ -57,6 +57,14 @@ function ScenarioPanel({ position, setPrediction, prediction }) {
 
     const result = await predictRisk(data);
     setPrediction(result);
+    localStorage.setItem("lastFireAnalysis", JSON.stringify({
+    risk_score: result.risk_score,
+    predicted_fire_size: result.predicted_fire_size,
+    temperature: temp,
+    humidity: humidity,
+    wind: wind,
+    risk_level: result.risk_level
+  }));
   };
 
   return (
@@ -78,6 +86,19 @@ function ScenarioPanel({ position, setPrediction, prediction }) {
           Manuel Simülasyon
         </button>
       </div>
+      {isAutoWeather && (
+        <div className="weather-box">
+          <div className="weather-item">
+            🌡️ Sıcaklık: <b>{temp}°C</b>
+          </div>
+          <div className="weather-item">
+            💧 Nem: <b>%{humidity}</b>
+          </div>
+          <div className="weather-item">
+            💨 Rüzgar: <b>{wind} km/h</b>
+          </div>
+        </div>
+      )}
 
       <div className={`form-grid ${isAutoWeather ? "disabled-grid" : ""}`}>
         <div className="form-group">
