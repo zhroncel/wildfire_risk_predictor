@@ -1,16 +1,25 @@
 import ActiveFiresMap from "../components/ActiveFiresMap";
 import ActiveFiresPanel from "../components/ActiveFiresPanel";
+import "../App.css";
 
 export default function ActiveFiresPage() {
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
-      <div style={{ flex: 3 }}>
-        <ActiveFiresMap />
+    <div className="active-fires-page">
+
+      {/* MAP */}
+      <div className="active-fires-map-wrapper">
+        <div className="dashboard-map">
+          <ActiveFiresMap />
+        </div>
       </div>
 
-      <div style={{ flex: 1 }}>
-        <ActiveFiresPanel />
+      {/* PANEL */}
+      <div className="active-fires-panel-wrapper">
+        <div className="dashboard-card">
+          <ActiveFiresPanel />
+        </div>
       </div>
+
     </div>
   );
 }

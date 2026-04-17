@@ -12,20 +12,70 @@ export default function ActiveFiresPanel() {
     load();
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div className="info-card">Loading...</div>;
+
+  // risk hesaplama
+  const high = data.fires.filter(f => f.confidence === "h").length;
+  const medium = data.fires.filter(f => f.confidence === "n").length;
+  const low = data.fires.filter(f => f.confidence === "l").length;
 
   return (
-    <div>
-      <h3>🔥 Active Fires</h3>
-      <p>Total Fires: {data.count}</p>
+    <div className="right-panel">
 
-      <h4>Recent Fires</h4>
+      {/* MAIN CARD */}
+      <div className="info-card">
 
-      {data.fires.slice(0,5).map((f, i) => (
-        <div key={i}>
-          {f.latitude.toFixed(2)} , {f.longitude.toFixed(2)}
+        <h3>🔥 Active Fires</h3>
+
+        <p><strong>Total Fires:</strong> {data.count}</p>
+
+        {/* RISK STATS */}
+        <div className="fire-stats">
+
+          <div className="stat red">
+            🔴 High: {high}
+          </div>
+
+          <div className="stat orange">
+            🟠 Medium: {medium}
+          </div>
+
+          <div className="stat green">
+            🟢 Low: {low}
+          </div>
+
         </div>
-      ))}
+
+        <h4>Recent Fires</h4>
+
+        {/* FIRE LIST */}
+        <div className="fire-list">
+
+          {data.fires.slice(0, 10).map((f, i) => (
+            <div
+              key={i}
+              className={`fire-item ${
+                f.confidence === "h"
+                  ? "high"
+                  : f.confidence === "n"
+                  ? "medium"
+                  : "low"
+              }`}
+            >
+              <span>
+                📍 {f.latitude.toFixed(2)}, {f.longitude.toFixed(2)}
+              </span>
+
+              <span className="badge">
+                {f.confidence}
+              </span>
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+
     </div>
   );
 }

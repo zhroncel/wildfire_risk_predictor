@@ -11,7 +11,7 @@ export async function predictRisk(data) {
   });
 
   return await res.json();
-}
+};
 
 export const getActiveFires = async () => {
   const response = await fetch(`${API_URL}/active-fires`);

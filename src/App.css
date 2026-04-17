@@ -934,8 +934,8 @@ body{
   padding: 10px;
   border-radius: 8px;
   border: none;
-  background: #334155;
-  color: white;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
 }
 
 /* BUTON */
@@ -1000,6 +1000,138 @@ body{
   border-bottom: none;
 }
 
+/*activefirespanel css */
+/* GENEL LAYOUT */
+.active-fires-page {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* MAP */
+.active-fires-map-wrapper {
+  flex: 3;
+}
+
+/* PANEL */
+.active-fires-panel-wrapper {
+  flex: 1;
+}
+
+/* HARİTA CARD */
+.dashboard-map {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* PANEL CARD (yeni) */
+.dashboard-card {
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  height: 100%;
+}
+
+/* LEAFLET FIX */
+.leaflet-container {
+  border-radius: 16px;
+}
+/* RiskHeatmapPage */
+.risk-page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}
+
+/* HARİTA CARD */
+.dashboard-map {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* LEGEND CARD */
+.legend-card {
+  background: white;
+  border-radius: 16px;
+  padding: 10px 16px;
+
+  width: 500px;
+  height: 90px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* LEGEND ITEM */
+.legend-item {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* LEAFLET FIX (varsa harita için) */
+.leaflet-container {
+  border-radius: 16px;
+}
+/* ActiveFiresPanel */
+.fire-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-size: 13px;
+}
+
+.stat {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f4f4f4;
+}
+
+.stat.red { color: red; }
+.stat.orange { color: orange; }
+.stat.green { color: green; }
+
+.fire-list {
+  margin-top: 10px;
+}
+
+.fire-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: #f9f9f9;
+  font-size: 13px;
+}
+
+.fire-item.high {
+  border-left: 4px solid red;
+}
+
+.fire-item.medium {
+  border-left: 4px solid orange;
+}
+
+.fire-item.low {
+  border-left: 4px solid green;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #ddd;
+}
 @keyframes dots{
   0%{content:"."}
   33%{content:".."}

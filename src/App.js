@@ -13,9 +13,8 @@ import ActiveFiresPage from "./pages/ActiveFiresPage";
 
 import Profile from "./pages/Profile";
 import Passwords from "./pages/Passwords";
-import Sync from "./pages/Sync";
 import NewProfile from "./pages/NewProfile";
-import Guest from "./pages/Guest";
+
 
 function App() {
   const [position, setPosition] = useState(null);
@@ -36,9 +35,7 @@ function App() {
             {/* PROFIL SAYFALARI */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/passwords" element={<Passwords />} />
-            <Route path="/sync" element={<Sync />} />
             <Route path="/new-profile" element={<NewProfile />} />
-            <Route path="/guest" element={<Guest />} />
 
             {/* ANA SAYFA */}
             <Route path="/" element={<Dashboard />} />

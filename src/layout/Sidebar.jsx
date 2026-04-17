@@ -16,8 +16,7 @@ function Sidebar() {
     email: "220911865@stu.istinye.edu.tr",
   });
 
-  // 🌙 THEME
-  const [darkMode, setDarkMode] = useState(true);
+  
 
   // 🔔 NOTIFICATIONS
   const [notifications, setNotifications] = useState([
@@ -39,16 +38,7 @@ function Sidebar() {
       window.removeEventListener("userUpdated", loadUser);
     };
   }, []);
-
-  // tema yükle
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      setDarkMode(false);
-      document.body.classList.add("light");
-    }
-  }, []);
-
+  
   // dış tıklama
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -64,17 +54,6 @@ function Sidebar() {
   }, []);
 
   // 🔥 FUNCTIONS
-
-  const toggleTheme = () => {
-    if (darkMode) {
-      document.body.classList.add("light");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.body.classList.remove("light");
-      localStorage.setItem("theme", "dark");
-    }
-    setDarkMode(!darkMode);
-  };
 
   const removeNotification = (index) => {
     setNotifications((prev) => prev.filter((_, i) => i !== index));
@@ -147,10 +126,6 @@ function Sidebar() {
 
               <div onClick={() => navigate("/profile")}>
                 ⚙️ Profil Ayarları
-              </div>
-
-              <div onClick={toggleTheme}>
-                {darkMode ? "🌙 Koyu Mod" : "☀️ Aydınlık Mod"}
               </div>
 
               <div>
