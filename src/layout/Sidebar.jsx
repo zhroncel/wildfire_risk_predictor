@@ -10,36 +10,18 @@ function Sidebar() {
   const [openProfile, setOpenProfile] = useState(false);
   const profileRef = useRef(null);
 
-  // 👤 USER
   const [user, setUser] = useState({
     name: "Zehra",
     email: "220911865@stu.istinye.edu.tr",
   });
 
-  
-
-  // 🔔 NOTIFICATIONS
   const [notifications, setNotifications] = useState([
     "🔥 Yeni analiz tamamlandı",
     "⚠️ Yüksek risk tespit edildi",
   ]);
 
-  // kullanıcı yükle
-  useEffect(() => {
-    const loadUser = () => {
-      const savedUser = JSON.parse(localStorage.getItem("user"));
-      if (savedUser) setUser(savedUser);
-    };
 
-    loadUser();
-    window.addEventListener("userUpdated", loadUser);
-
-    return () => {
-      window.removeEventListener("userUpdated", loadUser);
-    };
-  }, []);
-  
-  // dış tıklama
+{/* Dış Tıklama */}
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -53,7 +35,6 @@ function Sidebar() {
     };
   }, []);
 
-  // 🔥 FUNCTIONS
 
   const removeNotification = (index) => {
     setNotifications((prev) => prev.filter((_, i) => i !== index));
@@ -66,18 +47,15 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
-
-      {/* LOGO */}
       <div className="sidebar-logo">
         Wildfire Risk System
       </div>
-
-      {/* MENU */}
+{/* Sol Panel kısmı */}
       <ul className="sidebar-menu">
         <li className={location.pathname === "/" ? "active" : ""}>
           <Link to="/">Dashboard</Link>
         </li>
-
+        
         <li className={location.pathname === "/risk" ? "active" : ""}>
           <Link to="/risk">Risk Tahmini</Link>
         </li>
@@ -95,9 +73,8 @@ function Sidebar() {
         </li>
       </ul>
 
-      {/* PROFILE */}
+{/*Admin kısmı*/}  
       <div className="profile-card-wrapper" ref={profileRef}>
-
         <div 
           className="profile-card"
           onClick={() => setOpenProfile(!openProfile)}
@@ -111,8 +88,6 @@ function Sidebar() {
 
         {openProfile && (
           <div className="user-dropdown">
-
-            {/* HEADER */}
             <div className="user-dropdown-header">
               <FaUser className="avatar-icon" />
               <div>
@@ -121,18 +96,13 @@ function Sidebar() {
               </div>
             </div>
 
-            {/* MENU */}
             <div className="user-dropdown-menu">
-
               <div onClick={() => navigate("/profile")}>
                 ⚙️ Profil Ayarları
               </div>
-
               <div>
                 🔔 Bildirimler ({notifications.length})
               </div>
-
-              {/* NOTIFICATION LIST */}
               <div className="notification-box">
                 {notifications.map((n, i) => (
                   <div
@@ -144,16 +114,12 @@ function Sidebar() {
                   </div>
                 ))}
               </div>
-
               <div className="user-logout" onClick={handleLogout}>
                 <FiLogOut /> Çıkış Yap
               </div>
-
             </div>
-
           </div>
         )}
-
       </div>
     </div>
   );

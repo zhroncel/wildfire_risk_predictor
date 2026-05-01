@@ -21,36 +21,25 @@ export default function ActiveFiresPanel() {
 
   return (
     <div className="right-panel">
-
-      {/* MAIN CARD */}
-      <div className="info-card">
-
+      <div className="info-card"> 
         <h3>🔥 Active Fires</h3>
-
         <p><strong>Total Fires:</strong> {data.count}</p>
 
-        {/* RISK STATS */}
-        <div className="fire-stats">
-
+        <div className="fire-stats">  
           <div className="stat red">
             🔴 High: {high}
           </div>
-
           <div className="stat orange">
             🟠 Medium: {medium}
           </div>
-
           <div className="stat green">
             🟢 Low: {low}
           </div>
-
         </div>
 
         <h4>Recent Fires</h4>
 
-        {/* FIRE LIST */}
         <div className="fire-list">
-
           {data.fires.slice(0, 10).map((f, i) => (
             <div
               key={i}

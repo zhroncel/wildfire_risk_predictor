@@ -22,5 +22,4 @@ function MapCard({ position, setPosition, prediction, setPrediction }) {
   );
 }
 
-// BU SATIRIN OLDUĞUNDAN EMİN OL:
 export default MapCard;

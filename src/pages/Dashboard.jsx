@@ -9,7 +9,6 @@ function Dashboard() {
     const [fires, setFires] = useState([]);
     const hasFetched = useRef(false);
 
-
     useEffect(() => {
         if (hasFetched.current) return;
 
@@ -29,11 +28,7 @@ function Dashboard() {
     return (
 
         <div className="dashboard">
-
-            {/* STAT CARDS */}
-
             <div className="stats-grid">
-
                 <div className="stat-card">
                     <h4>🔥 Aktif Yangın</h4>
                     <p>{fires.length}</p>
@@ -56,10 +51,8 @@ function Dashboard() {
 
             </div>
 
-            {/* HARİTA */}
 
             <div className="dashboard-map">
-
                 <MapContainer
                     center={[39, 35]}
                     zoom={6}

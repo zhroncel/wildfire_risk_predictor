@@ -12,7 +12,7 @@ function AIChat({ analysis }) {
         const question = questionText || input;
         if (!question) return;
 
-        setInput(""); // ⭐ hemen temizle
+        setInput(""); // hemen temizle
 
         const userMessage = { role: "user", text: question };
         setMessages(prev => [...prev, userMessage]);

@@ -5,7 +5,7 @@ const Profile = () => {
   const [name, setName] = useState("Zehra");
   const [email, setEmail] = useState("220911865@stu.istinye.edu.tr");
   const [region, setRegion] = useState("Marmara");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("0546 674 1941");
   const [topAlert, setTopAlert] = useState("");
 
   useEffect(() => {
@@ -18,9 +18,7 @@ const Profile = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = (e) => {e.preventDefault();
     const userData = {
       name,
       email,
@@ -43,7 +41,6 @@ const Profile = () => {
   return (
     
     <div className="profile-page-container">
-      {/* ALERT */}
       {topAlert && (
         <div className="top-alert">
           {topAlert}
@@ -51,22 +48,15 @@ const Profile = () => {
       )}
 
       <div className="profile-main-card">
-
-        {/* SOL */}
         <div className="profile-left">
           <FaUser className="profile-avatar" />
-
           <h3>{name}</h3>
           <p className="profile-email">{email}</p>
-
           <p className="profile-meta">📞 {phone}</p>
           <p className="profile-meta">📍 {region}</p>
         </div>
 
-        {/* SAĞ */}
         <form className="profile-right" onSubmit={handleSubmit}>
-
-          {/* ROW 1 */}
           <div className="form-row">
             <div className="form-group">
               <label>Ad Soyad</label>
@@ -85,7 +75,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* ROW 2 */}
           <div className="form-row">
             <div className="form-group">
               <label>Telefon</label>
@@ -114,7 +103,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* ROW 3 */}
           <div className="form-row">
             <div className="form-group">
               <label>Rol</label>
@@ -125,9 +113,7 @@ const Profile = () => {
           <button className="save-btn">
             Bilgileri Güncelle
           </button>
-
         </form>
-
       </div>
     </div>
   );

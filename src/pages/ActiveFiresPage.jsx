@@ -6,20 +6,17 @@ export default function ActiveFiresPage() {
   return (
     <div className="active-fires-page">
 
-      {/* MAP */}
       <div className="active-fires-map-wrapper">
         <div className="dashboard-map">
           <ActiveFiresMap />
         </div>
       </div>
 
-      {/* PANEL */}
       <div className="active-fires-panel-wrapper">
         <div className="dashboard-card">
           <ActiveFiresPanel />
         </div>
       </div>
-
     </div>
   );
 }

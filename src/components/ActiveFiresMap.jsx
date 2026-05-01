@@ -32,7 +32,6 @@ export default function ActiveFiresMap() {
           }}
         >
           <Popup>
-            🔥 Fire Detected<br />
             Confidence: {fire.confidence}<br />
             Lat: {fire.latitude}<br />
             Lon: {fire.longitude}
